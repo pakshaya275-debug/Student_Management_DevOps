@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/pakshaya275-debug/Student_Management_DevOps.git'
+            }
+        }
+        stage('Generate Report') {
+            steps {
+                // Steps inside our specific project subfolder directory path
+                bat '''
+                    cd Project2_Archiving
+                    python app.py
+                '''
+            }
+        }
+        stage('Archive Report') {
+            steps {
+                // Saves the generated report document file directly onto the Jenkins dashboard
+                archiveArtifacts artifacts: 'Project2_Archiving/student_report.txt', fingerprint: true
+            }
+        }
+    }
+}

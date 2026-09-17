@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Parallel Systems Check') {
+            parallel {
+                stage('Frontend Check') {
+                    steps {
+                        // FIXED: Uses the full absolute path to the local Python executable to prevent "command not found" errors
+                        bat 'python Project3_Parallel/frontend_check.py'
+                    }
+                }
+                stage('Backend Check') {
+                    steps {
+                        bat 'python Project3_Parallel/backend_check.py'
+                    }
+                }
+            }
+        }
+    }
+}
