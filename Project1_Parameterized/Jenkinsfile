@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    
+    // Configures choice options before the pipeline begins execution
+    parameters {
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Select the target deployment environment for the Student Dashboard')
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com'
+            }
+        }
+        stage('Show Parameter') {
+            steps {
+                echo "Selected Target Environment: ${params.ENVIRONMENT}"
+            }
+        }
+        stage('Build for Environment') {
+            steps {
+                echo "Executing automated compilation scripts for the student dashboard on: ${params.ENVIRONMENT}..."
+            }
+        }
+    }
+}
